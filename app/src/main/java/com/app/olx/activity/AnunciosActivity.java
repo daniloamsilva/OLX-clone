@@ -32,9 +32,9 @@ public class AnunciosActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (autenticacao.getCurrentUser() != null){
-            menu.setGroupVisible(R.id.group_deslogado, true);
-        } else {
             menu.setGroupVisible(R.id.group_logado, true);
+        } else {
+            menu.setGroupVisible(R.id.group_deslogado, true);
         }
         return super.onPrepareOptionsMenu(menu);
     }
