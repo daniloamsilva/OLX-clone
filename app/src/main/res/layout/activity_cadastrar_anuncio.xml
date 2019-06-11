@@ -77,6 +77,17 @@
         android:inputType="textPersonName"
         android:padding="10dp" />
 
+    <com.santalu.maskedittext.MaskEditText
+        android:id="@+id/et_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_edit_text"
+        android:padding="10dp"
+        android:hint="Telefone"
+        android:inputType="phone"
+        app:met_mask="(##) #####-####"/>
+
     <EditText
         android:id="@+id/editDescricao"
         android:layout_width="match_parent"
