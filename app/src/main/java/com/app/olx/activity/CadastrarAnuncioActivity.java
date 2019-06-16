@@ -14,8 +14,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.app.olx.R;
 import com.app.olx.helper.Permissoes;
@@ -29,6 +31,7 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
 
     private EditText campoTitulo, campoDescricao;
     private ImageView imagem1, imagem2, imagem3;
+    private Spinner campoEstado, campoCategoria;
     private CurrencyEditText campoValor;
 
     private String[] permissoes = new String[]{
@@ -45,6 +48,7 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
         Permissoes.validarPermissoes(permissoes, this, 1);
 
         inicializarComponentes();
+        carregarDadosSpinner();
 
     }
 
@@ -90,10 +94,34 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
         }
     }
 
+    private void carregarDadosSpinner(){
+
+        // Configuração do spinner de estados
+        String[] estados = getResources().getStringArray(R.array.estados);
+        ArrayAdapter<String> adapterEstados = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item,
+                estados
+        );
+        adapterEstados.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        campoEstado.setAdapter(adapterEstados);
+
+        // Configuração do spinner de categorias
+        String[] categorias = getResources().getStringArray(R.array.categorias);
+        ArrayAdapter<String> adapterCategorias = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item,
+                categorias
+        );
+        adapterCategorias.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        campoCategoria.setAdapter(adapterCategorias);
+
+    }
+
     private void inicializarComponentes(){
         campoTitulo = findViewById(R.id.editTitulo);
         campoDescricao = findViewById(R.id.editDescricao);
         campoValor = findViewById(R.id.editValor);
+        campoEstado = findViewById(R.id.spinnerEstado);
+        campoCategoria = findViewById(R.id.spinnerCategoria);
         imagem1 = findViewById(R.id.imageCadastro1);
         imagem2 = findViewById(R.id.imageCadastro2);
         imagem3 = findViewById(R.id.imageCadastro3);
