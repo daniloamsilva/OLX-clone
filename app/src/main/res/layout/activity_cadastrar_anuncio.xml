@@ -78,7 +78,7 @@
         android:padding="10dp" />
 
     <com.santalu.maskedittext.MaskEditText
-        android:id="@+id/et_phone_number"
+        android:id="@+id/campoTelefone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -103,6 +103,7 @@
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="validarDadosAnuncio"
         android:text="Cadastrar Anúncio"
-        android:theme="@style/botaoPadrao"/>
+        android:theme="@style/botaoPadrao" />
 </LinearLayout>

@@ -18,10 +18,12 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.app.olx.R;
 import com.app.olx.helper.Permissoes;
 import com.blackcat.currencyedittext.CurrencyEditText;
+import com.santalu.maskedittext.MaskEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
     private ImageView imagem1, imagem2, imagem3;
     private Spinner campoEstado, campoCategoria;
     private CurrencyEditText campoValor;
+    private MaskEditText campoTelefone;
 
     private String[] permissoes = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -49,6 +52,60 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
 
         inicializarComponentes();
         carregarDadosSpinner();
+
+    }
+
+    public void validarDadosAnuncio(View view){
+
+        String estado = campoEstado.getSelectedItem().toString();
+        String categoria = campoCategoria.getSelectedItem().toString();
+        String titulo = campoTitulo.getText().toString();
+        String valor = String.valueOf(campoValor.getRawValue());
+        String telefone = campoTelefone.getText().toString();
+        String fone = "";
+        String descricao = campoDescricao.getText().toString();
+
+        if (campoTelefone.getRawText() != null){
+            fone = campoTelefone.getRawText().toString();
+        }
+
+        if (listaFotosRecuperadas.size() != 0){
+            if (!estado.isEmpty()){
+                if (!categoria.isEmpty()){
+                    if (!titulo.isEmpty()){
+                        if (!valor.isEmpty() && !valor.equals("0")){
+                            if (!telefone.isEmpty() && fone.length() >= 10){
+                                if (!descricao.isEmpty()){
+                                    salvarAnuncio();
+                                }else {
+                                    exibirMensagemErro("Preencha o campo descrição!");
+                                }
+                            }else {
+                                exibirMensagemErro("Preencha o campo telefone, digite ao menos 10 números!");
+                            }
+                        }else {
+                            exibirMensagemErro("Preencha o campo valor!");
+                        }
+                    }else {
+                        exibirMensagemErro("Preencha o campo título!");
+                    }
+                }else {
+                    exibirMensagemErro("Preencha o campo categoria!");
+                }
+            }else {
+                exibirMensagemErro("Preencha o campo estado!");
+            }
+        }else{
+            exibirMensagemErro("Selecione ao menos uma foto!");
+        }
+
+    }
+
+    private void exibirMensagemErro(String mensagem){
+        Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();
+    }
+
+    public void salvarAnuncio(){
 
     }
 
@@ -122,6 +179,7 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
         campoValor = findViewById(R.id.editValor);
         campoEstado = findViewById(R.id.spinnerEstado);
         campoCategoria = findViewById(R.id.spinnerCategoria);
+        campoTelefone = findViewById(R.id.campoTelefone);
         imagem1 = findViewById(R.id.imageCadastro1);
         imagem2 = findViewById(R.id.imageCadastro2);
         imagem3 = findViewById(R.id.imageCadastro3);
