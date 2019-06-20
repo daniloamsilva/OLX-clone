@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.app.olx.R;
 import com.app.olx.helper.Permissoes;
+import com.app.olx.model.Anuncio;
 import com.blackcat.currencyedittext.CurrencyEditText;
 import com.santalu.maskedittext.MaskEditText;
 
@@ -36,6 +37,7 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
     private Spinner campoEstado, campoCategoria;
     private CurrencyEditText campoValor;
     private MaskEditText campoTelefone;
+    private Anuncio anuncio;
 
     private String[] permissoes = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -57,25 +59,20 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
 
     public void validarDadosAnuncio(View view){
 
-        String estado = campoEstado.getSelectedItem().toString();
-        String categoria = campoCategoria.getSelectedItem().toString();
-        String titulo = campoTitulo.getText().toString();
-        String valor = String.valueOf(campoValor.getRawValue());
-        String telefone = campoTelefone.getText().toString();
+        anuncio = configurarAnuncio();
         String fone = "";
-        String descricao = campoDescricao.getText().toString();
 
         if (campoTelefone.getRawText() != null){
             fone = campoTelefone.getRawText().toString();
         }
 
         if (listaFotosRecuperadas.size() != 0){
-            if (!estado.isEmpty()){
-                if (!categoria.isEmpty()){
-                    if (!titulo.isEmpty()){
-                        if (!valor.isEmpty() && !valor.equals("0")){
-                            if (!telefone.isEmpty() && fone.length() >= 10){
-                                if (!descricao.isEmpty()){
+            if (!anuncio.getEstado().isEmpty()){
+                if (!anuncio.getCategoria().isEmpty()){
+                    if (!anuncio.getTitulo().isEmpty()){
+                        if (!anuncio.getValor().isEmpty() && !anuncio.getValor().equals("0")){
+                            if (!anuncio.getTelefone().isEmpty() && fone.length() >= 10){
+                                if (!anuncio.getDescricao().isEmpty()){
                                     salvarAnuncio();
                                 }else {
                                     exibirMensagemErro("Preencha o campo descrição!");
@@ -106,6 +103,33 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
     }
 
     public void salvarAnuncio(){
+
+        for (int i=0; i < listaFotosRecuperadas.size(); i++){
+            String urlImagem = listaFotosRecuperadas.get(i);
+            int tamanhoLista = listaFotosRecuperadas.size();
+            salvarFotoStorage(urlImagem, tamanhoLista, i);
+        }
+
+    }
+
+    private Anuncio configurarAnuncio(){
+
+        String estado = campoEstado.getSelectedItem().toString();
+        String categoria = campoCategoria.getSelectedItem().toString();
+        String titulo = campoTitulo.getText().toString();
+        String valor = String.valueOf(campoValor.getRawValue());
+        String telefone = campoTelefone.getText().toString();
+        String descricao = campoDescricao.getText().toString();
+
+        Anuncio anuncio = new Anuncio();
+        anuncio.setEstado(estado);
+        anuncio.setCategoria(categoria);
+        anuncio.setTitulo(titulo);
+        anuncio.setValor(valor);
+        anuncio.setTelefone(telefone);
+        anuncio.setCategoria(categoria);
+
+        return anuncio;
 
     }
 
