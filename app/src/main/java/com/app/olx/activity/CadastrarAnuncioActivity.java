@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -21,11 +22,18 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.app.olx.R;
+import com.app.olx.helper.ConfiguraçãoFirebase;
 import com.app.olx.helper.Permissoes;
 import com.app.olx.model.Anuncio;
 import com.blackcat.currencyedittext.CurrencyEditText;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.santalu.maskedittext.MaskEditText;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -38,6 +46,7 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
     private CurrencyEditText campoValor;
     private MaskEditText campoTelefone;
     private Anuncio anuncio;
+    private StorageReference storage;
 
     private String[] permissoes = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -48,6 +57,9 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar_anuncio);
+
+        // Configurações iniciais
+        storage = ConfiguraçãoFirebase.getFirebaseStorage();
 
         // Validar permissões
         Permissoes.validarPermissoes(permissoes, this, 1);
@@ -110,6 +122,28 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
             salvarFotoStorage(urlImagem, tamanhoLista, i);
         }
 
+    }
+
+    private void salvarFotoStorage(String urlString, int totalFotos, int contador){
+        StorageReference imagemAnuncio = storage.child("imagens")
+                .child("anuncios")
+                .child(anuncio.getIdAnuncio())
+                .child("imagem" + contador);
+
+        UploadTask uploadTask = imagemAnuncio.putFile( Uri.parse(urlString) );
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> firebaseUrl = taskSnapshot.getStorage().getDownloadUrl();
+                String urlConvertida = firebaseUrl.toString();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                exibirMensagemErro("Falha ao fazer upload!");
+                Log.i("INFO", "Falha ao fazer upload: " + e.getMessage());
+            }
+        });
     }
 
     private Anuncio configurarAnuncio(){
