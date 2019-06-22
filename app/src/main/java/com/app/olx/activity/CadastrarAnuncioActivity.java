@@ -83,14 +83,14 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
                 if (!anuncio.getCategoria().isEmpty()){
                     if (!anuncio.getTitulo().isEmpty()){
                         if (!anuncio.getValor().isEmpty() && !anuncio.getValor().equals("0")){
-                            if (!anuncio.getTelefone().isEmpty() && fone.length() >= 10){
+                            if (!anuncio.getTelefone().isEmpty() && fone.length() > 10){
                                 if (!anuncio.getDescricao().isEmpty()){
                                     salvarAnuncio();
                                 }else {
                                     exibirMensagemErro("Preencha o campo descrição!");
                                 }
                             }else {
-                                exibirMensagemErro("Preencha o campo telefone, digite ao menos 10 números!");
+                                exibirMensagemErro("Preencha o campo telefone, digite ao menos 11 números!");
                             }
                         }else {
                             exibirMensagemErro("Preencha o campo valor!");
@@ -161,6 +161,7 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
         anuncio.setTitulo(titulo);
         anuncio.setValor(valor);
         anuncio.setTelefone(telefone);
+        anuncio.setDescricao(descricao);
         anuncio.setCategoria(categoria);
 
         return anuncio;
