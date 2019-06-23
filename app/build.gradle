@@ -36,6 +36,9 @@ dependencies {
     // Máscara de moeda e telefone
     implementation 'com.github.BlacKCaT27:CurrencyEditText:2.0.2'
     implementation 'com.github.santalu:mask-edittext:1.1.1'
+
+    // SpotsDialog
+    implementation 'com.github.d-max:spots-dialog:1.1@aar'
 }
 
 apply plugin: 'com.google.gms.google-services'
