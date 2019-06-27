@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.olx.R;
 import com.app.olx.model.Anuncio;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -35,11 +36,21 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
+        Anuncio anuncio = anuncios.get(position);
+        holder.titulo.setText(anuncio.getTitulo());
+        holder.valor.setText(anuncio.getValor());
+
+        // Pegar a primeira imagem da lista
+        List<String> urlFotos = anuncio.getFotos();
+        String urlCapa = urlFotos.get(0);
+
+        Picasso.get().load(urlCapa).into(holder.foto);
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return anuncios.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
