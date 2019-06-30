@@ -44,6 +44,31 @@ public class Anuncio {
                 .setValue(this);
     }
 
+    public void remover(){
+
+        String idUsuario = ConfiguraçãoFirebase.getIdUsuario();
+        DatabaseReference anuncioRef = ConfiguraçãoFirebase.getFirebase()
+                .child("meus_anuncios")
+                .child(idUsuario)
+                .child(getIdAnuncio());
+
+        anuncioRef.removeValue();
+        removerAnuncioPublico();
+
+    }
+
+    public void removerAnuncioPublico(){
+
+        DatabaseReference anuncioRef = ConfiguraçãoFirebase.getFirebase()
+                .child("anuncios")
+                .child(getEstado())
+                .child(getCategoria())
+                .child(getIdAnuncio());
+
+        anuncioRef.removeValue();
+
+    }
+
     public String getIdAnuncio() {
         return idAnuncio;
     }
