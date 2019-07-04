@@ -147,7 +147,7 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                Task<Uri> firebaseUrl = taskSnapshot.getStorage().getDownloadUrl();
+                Uri firebaseUrl = taskSnapshot.getDownloadUrl();
                 String urlConvertida = firebaseUrl.toString();
 
                 listURLFotos.add(urlConvertida);
