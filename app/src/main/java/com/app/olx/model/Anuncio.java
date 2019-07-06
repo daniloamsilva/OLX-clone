@@ -3,9 +3,10 @@ package com.app.olx.model;
 import com.app.olx.helper.ConfiguraçãoFirebase;
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Anuncio {
+public class Anuncio implements Serializable {
 
     private String idAnuncio;
     private String estado;

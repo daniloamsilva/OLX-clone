@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.app.olx.R;
 import com.app.olx.adapter.AdapterAnuncios;
 import com.app.olx.helper.ConfiguraçãoFirebase;
+import com.app.olx.helper.RecyclerItemClickListener;
 import com.app.olx.model.Anuncio;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -63,6 +65,32 @@ public class AnunciosActivity extends AppCompatActivity {
         recyclerAnunciosPublicos.setAdapter(adapterAnuncios);
 
         recuperarAnunciosPublicos();
+
+        // Aplicar evento de click
+        recyclerAnunciosPublicos.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        this, recyclerAnunciosPublicos,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Anuncio anunciosSelecionado = listaAnuncios.get(position);
+                                Intent i = new Intent(AnunciosActivity.this, DetalhesProdutoActivity.class);
+                                i.putExtra("anuncioSelecionado", anunciosSelecionado);
+                                startActivity(i);
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        }
+                )
+        );
 
     }
 
